@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_login"
             android:text="LOGIN"
-            android:onClick="@{()->LoginViewModel.Login()}"
+            android:onClick="@{()->LoginViewModel.Login(LoginViewModel.userName, LoginViewModel.password)}"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:background="@color/design_default_color_secondary"

@@ -15,9 +15,8 @@ import com.example.firstsample.model.User;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class LoginViewModel extends BaseObservable {
@@ -25,6 +24,8 @@ public class LoginViewModel extends BaseObservable {
     private String userName;
     private String password;
     public ObservableField<String> msgLogin = new ObservableField<>();
+
+
 
     @Inject
     public LoginViewModel(@ApplicationContext Context c) {
@@ -53,23 +54,24 @@ public class LoginViewModel extends BaseObservable {
         notifyPropertyChanged(BR.userName);
     }
 
-    public void Login() {
+    private void handleError(Throwable error) {
+        msgLogin.set("Login Fail");
+    }
 
-        ApiService.apiService.getUser(getUserName(), getPassword()).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-
-                User user = response.body();
-                msgLogin.set(user.toString());
-
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-                msgLogin.set("Login Fail");
-            }
-        });
+    private void handleSuccess() {
 
     }
+
+    private void handleResponse(User user) {
+        msgLogin.set(user.toString());
+    }
+
+    public void Login(String userName, String password) {
+        Observable<User> userObservable = ApiService.apiService.callUser(userName, password);
+        userObservable.subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .subscribe(this::handleResponse, this::handleError);
+
+    }
+
 }
