@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.example.firstsample.ApplicationContext;
+import com.example.firstsample.model.api.ApiService;
+import com.example.firstsample.model.api.RequestManager;
 import com.example.firstsample.viewmodel.LoginViewModel;
 
 import javax.inject.Singleton;
@@ -20,6 +22,10 @@ public interface AppComponent {
     Context getApplicationContext();
 
     App getApplication();
+
+    ApiService getApiService();
+//
+//    RequestManager getRequestManager();
 
     LoginViewModel getLoginViewModel();
 }

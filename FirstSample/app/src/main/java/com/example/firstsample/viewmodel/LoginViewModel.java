@@ -1,12 +1,8 @@
 package com.example.firstsample.viewmodel;
 
-import android.content.Context;
-
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.ObservableField;
-
-import com.example.firstsample.ApplicationContext;
 
 import com.example.firstsample.BR;
 import com.example.firstsample.model.api.ApiService;
@@ -20,16 +16,15 @@ import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class LoginViewModel extends BaseObservable {
-    private Context context;
     private String userName;
     private String password;
+    private ApiService apiService;
     public ObservableField<String> msgLogin = new ObservableField<>();
 
 
-
     @Inject
-    public LoginViewModel(@ApplicationContext Context c) {
-        this.context = c;
+    public LoginViewModel(ApiService api) {
+        apiService = api;
         userName = "";
         password = "";
     }
@@ -67,7 +62,7 @@ public class LoginViewModel extends BaseObservable {
     }
 
     public void Login(String userName, String password) {
-        Observable<User> userObservable = ApiService.apiService.callUser(userName, password);
+        Observable<User> userObservable = apiService.callUser(userName, password);
         userObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .subscribe(this::handleResponse, this::handleError);

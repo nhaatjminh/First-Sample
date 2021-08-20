@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.firstsample.model.api.ApiService;
 import com.example.firstsample.viewmodel.LoginViewModel;
 
 import org.junit.Assert;
@@ -17,13 +18,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class LoginViewModelTest {
 
     LoginViewModel loginViewModel;
+
     @Mock
-    Context context;
+    ApiService apiService;
 
     @Before
     public void setUp() throws Exception {
-        loginViewModel = new LoginViewModel(context);
+        loginViewModel = new LoginViewModel(apiService);
     }
+    
 
     @Test
     public void loginTest() {
