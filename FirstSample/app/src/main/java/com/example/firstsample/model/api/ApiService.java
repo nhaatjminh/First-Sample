@@ -20,16 +20,16 @@ import retrofit2.http.POST;
 @Singleton
 public interface ApiService {
 
-    Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-mm-dd HH:mm:ss")
-            .create();
-
-    ApiService apiService = new Retrofit.Builder()
-            .baseUrl("https://run.mocky.io/v3/")
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-            .create(ApiService.class);
+//    Gson gson = new GsonBuilder()
+//            .setDateFormat("yyyy-mm-dd HH:mm:ss")
+//            .create();
+//
+//    ApiService apiService = new Retrofit.Builder()
+//            .baseUrl("https://run.mocky.io/v3/")
+//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//            .addConverterFactory(GsonConverterFactory.create(gson))
+//            .build()
+//            .create(ApiService.class);
 
 
     @FormUrlEncoded

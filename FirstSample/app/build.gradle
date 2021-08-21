@@ -58,10 +58,15 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.35.1' // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.35.1'
 
-    androidTestCompile 'org.mockito:mockito-core:2.+'
-    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
-    androidTestCompile ('junit:junit:4.12') {
-        exclude module: 'hamcrest-core'
-    }
+//    androidTestCompile 'org.mockito:mockito-core:2.+'
+//    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+//    androidTestCompile ('junit:junit:4.12') {
+//        exclude module: 'hamcrest-core'
+//    }
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
+    androidTestImplementation 'org.mockito:mockito-android:2.11.0'
+    testImplementation 'androidx.test:core:1.4.0'
 
 }

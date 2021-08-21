@@ -3,6 +3,7 @@ package com.example.firstsample.di;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.firstsample.Api;
 import com.example.firstsample.ApplicationContext;
 import com.example.firstsample.model.User;
 import com.example.firstsample.model.api.ApiService;
@@ -39,8 +40,18 @@ public class AppModule {
     }
 
     @Provides
+    @Api
     public ApiService provideApiService() {
-        return ApiService.apiService;
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-mm-dd HH:mm:ss")
+                .create();
+
+        Retrofit apiService = new Retrofit.Builder()
+                .baseUrl("https://run.mocky.io/v3/")
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        return apiService.create(ApiService.class);
     }
 
 }

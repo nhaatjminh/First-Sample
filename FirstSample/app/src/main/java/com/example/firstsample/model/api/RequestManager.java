@@ -4,7 +4,7 @@ import com.example.firstsample.model.User;
 
 import io.reactivex.Observable;
 
-public class RequestManager implements ApiService {
+public class RequestManager  {
 
 //    private ApiService apiService;
 //
@@ -13,8 +13,8 @@ public class RequestManager implements ApiService {
 //        this.apiService = api;
 //    }
 //
-    @Override
-    public Observable<User> callUser(String userName, String password) {
-        return apiService.callUser(userName, password);
-    }
+//    @Override
+//    public Observable<User> callUser(String userName, String password) {
+//        return apiService.callUser(userName, password);
+//    }
 }
