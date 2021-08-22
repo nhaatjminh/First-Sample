@@ -21,18 +21,22 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginViewModel extends BaseObservable {
     private String userName;
     private String password;
-    private final ApiService apiService;
+    private ApiService apiService;
     public ObservableField<String> msgLogin = new ObservableField<>();
 
-    public ApiService getApiService() {
-        return apiService;
-    }
 
     @Inject
     public LoginViewModel(@Api ApiService api) {
         apiService = api;
         userName = "";
         password = "";
+    }
+
+    public ApiService getApiService() {
+        return apiService;
+    }
+    public void setApiService(ApiService api) {
+        this.apiService = api;
     }
 
     @Bindable
@@ -55,25 +59,41 @@ public class LoginViewModel extends BaseObservable {
         notifyPropertyChanged(BR.userName);
     }
 
-    private void handleError(Throwable error) {
+    public void handleError(Throwable error) {
+
         msgLogin.set("Login Fail");
     }
 
-    private void handleSuccess() {
-
+    public void handleSuccess() {
+        Log.e("handleSuccess: ", "Success");
     }
 
-    private void handleResponse(User user) {
+    public void notifySuccess() {
+        Log.e("STATUS", "Success");
+    }
+
+    public void notifyFail() {
+        Log.e("STATUS", "Fail");
+    }
+
+    public void handleResponse(User user) {
         msgLogin.set(user.toString());
+        handleSuccess();
+    }
+
+    public ObservableField<String> getMsgLogin() {
+        return msgLogin;
     }
 
     public void Login(String userName, String password) {
 
         Observable<User> userObservable = apiService.callUser(userName, password);
 
-         userObservable.subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.io())
-                .subscribe(this::handleResponse, this::handleError);
+        userObservable.subscribeOn(Schedulers.newThread())
+                 .observeOn(Schedulers.io())
+                 .doOnSubscribe(disposable -> notifySuccess())
+                 .doAfterTerminate(()-> notifyFail())
+                 .subscribe(this::handleResponse, this::handleError);
 
     }
 
